@@ -1,14 +1,5 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jan 14 10:10:15 2025
-
-@author: rahel
-"""
-
 import numpy as np
 import os
-
 
 # =============================================================================
 # # Spectral Form Factor
