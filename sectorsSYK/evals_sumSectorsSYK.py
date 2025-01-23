@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jan 14 16:28:09 2025
-
-@author: rahel
-"""
-
 import numpy as np
 from scipy.sparse import lil_matrix
 import numpy.linalg as la
@@ -66,10 +58,8 @@ def makeH_SYK_q4_sum_sectors(L):
         # basis is a list that gives the basis state for an index in the basis.
         
         basis = []
-        #basis_map = {}
         for st in range(0,2**L):
             if popcnt(st) == n:
-                #basis_map[st] = len(basis)
                 basis.append(st)
         assert len(basis) == size_sec
 
@@ -93,8 +83,7 @@ def makeH_SYK_q4_sum_sectors(L):
                     # 'sign' accounts for anticommutation of creation operators in the Hamiltonian with those present in the state itself.
 
                     stp = st ^ ((1<<i)^(1<<j)^(1<<k)^(1<<l)) # The state resulting after acting with this part of the Hamiltonian (i.e. this set of indices) on the state 'st'.
-                    sign = fparity(st,i,j)*fparity(st,k,l)*(-1) #### There is possibly an error of a factor of (-1) here but it might not matter because it only sets the overall sign of the Hamiltonian. I have corrected that using the additional factor of (-1).
-
+                    sign = fparity(st,i,j)*fparity(st,k,l)*(-1) 
                     if (stp == st):
 
                         H[stp,st] += 1.*ReJijkl[i,j,k,l]*sign/np.sqrt(0.5) # As the diagonal coupling strength should still have variance 6 J^2 / L^3, even though it has no imaginary part 
@@ -155,7 +144,7 @@ def makeH_SYK_pert_even(L): # This creates a perturbation that consists of 1 cre
 
                     stp = st ^ ((1<<i)^(1<<j)^(1<<k)^(1<<l)) # The state resulting after acting with this part of the Hamiltonian (i.e. this set of indices) on the state 'st'.
                     if (i>=l): # The sign computations here follow the latter order: c_i^\dagger c_j c_k c_l = - c_i^\dagger c_l c_k c_j
-                        sign = (fparity(st,j,k)*fparitytwo(st,l,i)) #modified
+                        sign = (fparity(st,j,k)*fparitytwo(st,l,i)) 
                     else:
                         sign = fparity(st,j,k)*fparity((st^((1<<j)^(1<<k))),i,l) # I modified the argument for the second fparity to remove the 1s at the location of j and k to avoid the possibilities of when i might be smaller or bigger than k and/or j.
 
@@ -198,7 +187,7 @@ def makeH_RMT(L):
 ################################################################################
 if __name__ == "__main__":
 
-    L = 9#13 # to compare with Q=16 N=512
+    L = 9#13, to compare with Q=16 N=512
     
     Lrmt   = L-1
     n      = 2**L
@@ -219,13 +208,11 @@ if __name__ == "__main__":
 
     for r in range(realizations):
         
-        #Hgue   = makeH_RMT(Lrmt)
         Heven  = makeH_SYK_q4_sum_sectors(L).toarray()
         V      = makeH_SYK_pert_even(L).toarray()
         
         Hp     = Heven + eps*V        
 
-        #evalsHgue  = la.eigvalsh(Hgue) 
         evalsHp    = la.eigvalsh(Hp)
         
         # Append eigenvalues to the list
@@ -233,12 +220,7 @@ if __name__ == "__main__":
         
         #scaling with respect to GUE (eps=1) SFF
         sc_p    = np.absolute(np.max(evalsHgue)/np.max(evalsHp))
-        
-        #old, just to test:###
-        #sc_p    = np.mean(np.absolute(evalsHgue))/np.mean(np.absolute(evalsHp))
-        
-        ####
-        
+     
         SCevalsHp    = evalsHp*sc_p/mlsgue
   
         # Append eigenvalues to the list
@@ -251,8 +233,8 @@ if __name__ == "__main__":
 
 
     # Save the entire array in a single .npy file
-    np.save("SYK_evals_for_r=%s_eps=%s_L=%s.npy" % (realizations, eps, L), all_evals)
-    np.save("SYK_evals_scaled_for_r=%s_eps=%s_L=%s.npy" % (realizations, eps, L), all_evals_sc)
+    np.save("SYK_evals_for_r=%s_eps=%s_L=%s.npy" % (realizations, eps, L), all_evals) #unscaled evals
+    np.save("SYK_evals_scaled_for_r=%s_eps=%s_L=%s.npy" % (realizations, eps, L), all_evals_sc) #scaled evals
 
 
 
