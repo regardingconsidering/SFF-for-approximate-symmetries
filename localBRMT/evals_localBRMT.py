@@ -1,11 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jan  6 13:41:02 2025
-
-@author: rahel
-"""
-
 import numpy as np
 from scipy.linalg import block_diag
 import numpy.linalg as la
@@ -158,14 +150,11 @@ if __name__ == "__main__":
 
         
         # Scaling the eigenvalues (to be able to compare spectrum to full RMT)
-        #sc_i = np.mean(np.absolute(evals_H_rmt))/np.mean(np.absolute(evals_H))
         sc_f = np.absolute(np.max(evals_H_rmt))/np.absolute(np.max(evals_H))
 
-        #evalsc_i_H      = evals_H*sc_i/mls
         SCevals_H      = evals_H*sc_f/mls
                
-
-        # Append eigenvalues to the list
+        # Append scaled eigenvalues to the list
         all_evals_sc.append(SCevals_H)
         
         
@@ -175,6 +164,6 @@ if __name__ == "__main__":
     
     
     # Save the entire array in a single .npy file
-    np.save("evals_for_r=%s_eps=%s_QN=%s*%s.npy" % (realizations, eps, Q, N), all_evals)
-    np.save("evals_scaled_for_r=%s_eps=%s_QN=%s*%s.npy" % (realizations, eps, Q, N), all_evals_sc)
+    np.save("evals_for_r=%s_eps=%s_QN=%s*%s.npy" % (realizations, eps, Q, N), all_evals)#unscaled evals
+    np.save("evals_scaled_for_r=%s_eps=%s_QN=%s*%s.npy" % (realizations, eps, Q, N), all_evals_sc)#scaled evals
 
