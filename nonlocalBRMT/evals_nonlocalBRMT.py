@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jan  6 13:41:02 2025
-
-@author: rahel
-"""
 import numpy as np
 from scipy.linalg import block_diag
 import numpy.linalg as la
@@ -15,7 +8,6 @@ import numpy.linalg as la
 def makeH_0(N,Q):
     
     n = N
-
     h_0_list = [None]*Q
 
     for k in range(0,Q):
@@ -153,15 +145,12 @@ if __name__ == "__main__":
         # Append eigenvalues to the list
         all_evals.append(evals_H)
         
-        # scaling such that all mls are equal
-        #sc_i = np.mean(np.absolute(evals_H_rmt))/np.mean(np.absolute(evals_H))
+        # scaling eigenvalues
         sc_f = np.absolute(np.max(evals_H_rmt))/np.absolute(np.max(evals_H))
 
-
-        #evalsci_H      = evals_H*sc_i/mls
         SCevals_H      = evals_H*sc_f/mls
         
-        # Append eigenvalues to the list
+        # Append scaled eigenvalues to the list
         all_evals_sc.append(SCevals_H)
         
     # Convert the list of arrays to a single numpy array (or keep as list)
@@ -169,8 +158,8 @@ if __name__ == "__main__":
     all_evals_sc = np.array(all_evals_sc)
     
     # Save the entire array in a single .npy file
-    np.save("evals_for_r=%s_eps=%s_QN=%s*%s.npy" % (realizations, eps, Q, N), all_evals)
-    np.save("evals_scaled_for_r=%s_eps=%s_QN=%s*%s.npy" % (realizations, eps, Q, N), all_evals_sc)
+    np.save("evals_for_r=%s_eps=%s_QN=%s*%s.npy" % (realizations, eps, Q, N), all_evals)#unscaled evals
+    np.save("evals_scaled_for_r=%s_eps=%s_QN=%s*%s.npy" % (realizations, eps, Q, N), all_evals_sc)#scaled evals
 
 
 # =============================================================================
