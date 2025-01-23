@@ -1,17 +1,9 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Jan 14 10:10:15 2025
-
-@author: rahel
-"""
-
 import numpy as np
 import os
 
 
 # =============================================================================
-# # Spectral Form Factor
+#Computation of Spectral Form Factor (SFF)
 def make_sff(evals, t0, dt, ts, su, D):
     
     ###
@@ -61,7 +53,6 @@ if __name__ == "__main__":
 
     #Computing SFF for block diagonal RMT's with off-diagonal perturbations:
     for r in range(realizations):
-
 
         evalsc_H = evals[r]
         
